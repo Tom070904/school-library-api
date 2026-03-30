@@ -13,11 +13,11 @@ const router = express.Router();
 
 router.post('/', createBook);
 router.get('/', getBooks);
-router.get('/:id', getBook);
-router.put('/:id', updateBook);
-router.delete('/:id', deleteBook);
+router.get('/:isbn', getBook);
+router.put('/:isbn', updateBook);
+router.delete('/:isbn', deleteBook);
 
-router.post('/:id/borrow', borrowBook); 
-router.post('/:id/return', returnBook); 
+router.post('/:isbn/borrow', borrowBook); 
+router.post('/:isbn/return', returnBook); 
 
 export default router;

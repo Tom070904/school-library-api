@@ -12,7 +12,7 @@ const bookSchema = new mongoose.Schema({
   },
   authors: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Author'        // links to the Author model we just created
+    ref: 'Author'        // links to the Author model
   }],
   status: {
     type: String,

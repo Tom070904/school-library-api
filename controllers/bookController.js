@@ -15,7 +15,7 @@ export const getBooks = async (req, res) => {
 };
 
 export const getBook = async (req, res) => {
-  const book = await Book.findById(req.params.id)
+  const book = await Book.findOne({ isbn : req.params.isbn })
     .populate('authors')
     .populate('borrowedBy')
     .populate('issuedBy');
@@ -25,13 +25,13 @@ export const getBook = async (req, res) => {
 };
 
 export const updateBook = async (req, res) => {
-  const book = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  const book = await Book.findOneAndUpdate({ isbn: req.params.isbn }, req.body, { new: true });
   if (!book) return res.status(404).json({ message: 'Book not found' });
   res.json(book);
 };
 
 export const deleteBook = async (req, res) => {
-  const book = await Book.findByIdAndDelete(req.params.id);
+  const book = await Book.findOneAndDelete({ isbn: req.params.isbn });
   if (!book) return res.status(404).json({ message: 'Book not found' });
   res.json({ message: 'Book deleted successfully' });
 };
@@ -41,7 +41,7 @@ export const deleteBook = async (req, res) => {
 export const borrowBook = async (req, res) => {
   try {
     const { studentId, attendantId, returnDate } = req.body;
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findOne({ isbn: req.params.isbn });
 
     if (!book) return res.status(404).json({ message: 'Book not found' });
 
@@ -59,20 +59,20 @@ export const borrowBook = async (req, res) => {
     await book.save();
 
     // Return the updated book with full details
-    const updatedBook = await Book.findById(book._id)
+    const updatedBook = await Book.findOne({ isbn: book.isbn })
       .populate('authors')
       .populate('borrowedBy')
       .populate('issuedBy');
 
     res.json({ message: 'Book borrowed successfully', book: updatedBook });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: 'Error borrowing book', error: error.message });
   }
 };
 
 export const returnBook = async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findOne({ isbn: req.params.isbn });
 
     if (!book) return res.status(404).json({ message: 'Book not found' });
 
@@ -89,7 +89,7 @@ export const returnBook = async (req, res) => {
 
     await book.save();
 
-    const updatedBook = await Book.findById(book._id)
+    const updatedBook = await Book.findOne({ isbn: book.isbn })
       .populate('authors')
       .populate('borrowedBy')
       .populate('issuedBy');
