@@ -82,17 +82,18 @@ A simple school library management API built with Node.js, Express, and MongoDB.
 - `GET /api/books`
   - Get all books
 
-- `GET /api/books/:id`
-  - Get book details by ID
+- `GET /api/books/:isbn`
+  - Get book details by Isbn
 
-- `PUT /api/books/:id`
+- `PUT /api/books/:isbn`
   - Update a book
 
-- `DELETE /api/books/:id`
+- `DELETE /api/books/:isbn`
   - Delete a book
 
-- `POST /api/books/:id/borrow`
+- `POST /api/books/:isbn/borrow`
   - Borrow a book
+  - The <studentId> and <attendantId> are from the database
   - Body example:
     ```json
     {
@@ -102,7 +103,7 @@ A simple school library management API built with Node.js, Express, and MongoDB.
     }
     ```
 
-- `POST /api/books/:id/return`
+- `POST /api/books/:isbn/return`
   - Return a borrowed book
 
 ### Students
